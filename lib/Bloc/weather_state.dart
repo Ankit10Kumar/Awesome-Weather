@@ -21,8 +21,10 @@ class WeatherLoading extends WeatherState {
 // Only the WeatherLoaded event needs to contain data
 class WeatherLoaded extends WeatherState {
   final Forecast forecast;
-  final Location location;
-  WeatherLoaded(this.forecast, this.location) : super([forecast, location]);
+  final City location;
+  final String lastUpdate;
+  WeatherLoaded(this.forecast, this.location, this.lastUpdate)
+      : super([forecast, location, lastUpdate]);
 
   @override
   List<Object?> get props => [forecast, location];
@@ -30,9 +32,15 @@ class WeatherLoaded extends WeatherState {
 
 class WeatherError extends WeatherState {
   final String error;
-  final Map<String, dynamic> data;
-  WeatherError({required this.error, required this.data})
-      : super([error, data]);
+  final String lastUpdate;
+  final Map<String, dynamic> preForecast;
+  final Map<String, dynamic> preLocation;
+  WeatherError(
+      {required this.error,
+      required this.lastUpdate,
+      required this.preForecast,
+      required this.preLocation})
+      : super([error, preForecast, preLocation, lastUpdate]);
   @override
   List<Object?> get props => [error];
 }

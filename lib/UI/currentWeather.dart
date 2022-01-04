@@ -8,7 +8,7 @@ class CurrentWeather extends StatelessWidget {
       {Key? key, required this.forecast, required this.location})
       : super(key: key);
   final Forecast forecast;
-  final Location location;
+  final City location;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -17,29 +17,27 @@ class CurrentWeather extends StatelessWidget {
           Text(
             location.name,
             style: TextStyle(
-                color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontSize: 25,
+            ),
           ),
           SizedBox(height: 5),
           Text(
             getDate(timestamp: forecast.current.dt, format: 'MMMMEEEEd'),
             style: TextStyle(
               color: Colors.white70,
-              fontWeight: FontWeight.w300,
+              fontWeight: FontWeight.bold,
             ),
           ),
           Container(
             margin: EdgeInsets.only(top: 30, bottom: 30),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  converter(forecast.current.temp),
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 80,
-                  ),
-                ),
-              ],
+            child: Text(
+              converter(forecast.current.temp),
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 80,
+              ),
             ),
           ),
           Container(

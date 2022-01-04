@@ -10,12 +10,16 @@ class BadRequestException extends AppException {
 }
 
 class FetchDataException extends AppException {
-  FetchDataException([String? message]) : super(message, 'Unable to process');
+  FetchDataException([String? message]) : super(message, 'Unable to Connect');
+}
+
+class DefaultException extends AppException {
+  DefaultException([String? message]) : super(message, 'Something Went wrong');
 }
 
 class ApiNotRespondingException extends AppException {
   ApiNotRespondingException([String? message])
-      : super(message, 'Api not responded in time');
+      : super(message, 'Api not responding');
 }
 
 class UnAuthorizedException extends AppException {

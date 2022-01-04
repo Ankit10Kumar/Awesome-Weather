@@ -8,7 +8,7 @@ class WeatherBlocObserver extends BlocObserver {
   @override
   void onEvent(Bloc bloc, Object? event) {
     super.onEvent(bloc, event);
-    print('onEvent $event');
+    // print('onEvent $event');
   }
 
   @override
@@ -20,7 +20,7 @@ class WeatherBlocObserver extends BlocObserver {
   @override
   void onTransition(Bloc bloc, Transition transition) {
     super.onTransition(bloc, transition);
-    print('onTransition $transition');
+    // print('onTransition $transition');
     final dynamic state = transition.nextState;
     if (state is WeatherLoaded) {
       if (bloc is HydratedBloc) {

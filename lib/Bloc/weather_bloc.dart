@@ -16,10 +16,8 @@ class WeatherBloc extends HydratedBloc<ResetWeather, WeatherState> {
   @override
   WeatherState fromJson(Map<String, dynamic> json) {
     if (json.isNotEmpty) {
-      return WeatherLoaded(
-        Forecast.fromJson(json['forecast']),
-        Location.fromJson(json['location']),
-      );
+      return WeatherLoaded(Forecast.fromJson(json['forecast']),
+          City.fromJson(json['location']), json['lastUpdate']);
     } else {
       return WeatherInitial();
     }
@@ -29,14 +27,19 @@ class WeatherBloc extends HydratedBloc<ResetWeather, WeatherState> {
   Map<String, dynamic> toJson(WeatherState state) {
     if (state is WeatherLoaded) {
       return {
-        'forecast': state.forecast.toJson(),
-        'location': state.location.toJson()
+        'forecast': state.forecast,
+        'location': state.location,
+        'lastUpdate': state.lastUpdate,
       };
     } else if (state is WeatherError) {
-      return {
-        'forecast': state.data['forecast'],
-        'location': state.data['location'],
-      };
+      if (state.preForecast.isNotEmpty && state.preLocation.isNotEmpty) {
+        return {
+          'forecast': state.preForecast,
+          'location': state.preLocation,
+          'lastUpdate': state.lastUpdate
+        };
+      } else
+        return {};
     } else {
       return {};
     }
@@ -48,15 +51,22 @@ class WeatherBloc extends HydratedBloc<ResetWeather, WeatherState> {
     try {
       Forecast weatherForecast =
           await weatherRepo.getCurrentForcast(event.location);
-      yield WeatherLoaded(weatherForecast, event.location);
+      yield WeatherLoaded(weatherForecast, event.location, event.lastUpdate);
     } catch (error) {
       if (error is AppException)
         yield WeatherError(
           error: error.prefix ?? 'Something Went Wrong',
-          data: event.predata,
+          preForecast: event.preForecast,
+          preLocation: event.preLocation,
+          lastUpdate: event.lastUpdate,
         );
       else
-        yield WeatherError(error: 'Something Went Wrong', data: event.predata);
+        yield WeatherError(
+          error: 'Something Went Wrong',
+          preForecast: event.preForecast,
+          preLocation: event.preLocation,
+          lastUpdate: event.lastUpdate,
+        );
     }
   }
 }

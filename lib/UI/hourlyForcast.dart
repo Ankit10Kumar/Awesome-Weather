@@ -21,43 +21,46 @@ class HourlyForecast extends StatelessWidget {
           ),
           Container(
             height: 180,
-            child: ListView.separated(
-              separatorBuilder: (context, index) => VerticalDivider(
-                color: Colors.transparent,
-                thickness: 25,
-              ),
+            child: ListView.builder(
+              // separatorBuilder: (context, index) => VerticalDivider(
+              //   color: Colors.transparent,
+              //   thickness: 10,
+              // ),
               physics: BouncingScrollPhysics(),
               shrinkWrap: true,
               scrollDirection: Axis.horizontal,
               itemCount: (hourly.length ~/ 4).toInt(),
               itemBuilder: (context, item) => Container(
-                margin: EdgeInsets.only(left: 20, right: 20),
-                width: MediaQuery.of(context).size.width * 0.12,
+                // color: Colors.green,
+                width: MediaQuery.of(context).size.width * 0.19,
+                margin: EdgeInsets.symmetric(horizontal: 5),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
                       getTime(timestamp: hourly[item].dt, format: 'hh a'),
                       style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w400,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w400,
+                          fontSize: 15),
+                    ),
+                    Container(
+                      height: 40,
+                      // color: Colors.green,
+                      clipBehavior: Clip.none,
+                      child: Image.asset(
+                        'Assets/images/${hourly[item].weather[0].icon}.png',
+                        fit: BoxFit.fill,
                       ),
                     ),
-                    SizedBox(height: 20),
-                    ImageIcon(
-                      AssetImage(
-                          'Assets/images/${hourly[item].weather[0].icon}.png'),
-                      color: Colors.white,
-                      size: 60,
-                    ),
-                    SizedBox(height: 20),
                     Text(
                       converter(hourly[item].temp),
                       style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w400,
-                          fontSize: 13),
+                        color: Colors.white,
+                        fontWeight: FontWeight.w400,
+                        fontSize: 12,
+                      ),
                     )
                   ],
                 ),

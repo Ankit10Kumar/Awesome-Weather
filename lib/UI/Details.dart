@@ -9,10 +9,10 @@ class Details extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      shadowColor: Colors.white.withOpacity(0.2),
+      shadowColor: Colors.white.withOpacity(0.1),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       elevation: 10,
-      color: Colors.white.withOpacity(0.3),
+      color: Colors.white.withOpacity(0.1),
       child: Container(
         margin: EdgeInsets.all(20),
         child: Column(
@@ -46,7 +46,7 @@ class Details extends StatelessWidget {
                       textAlign: TextAlign.start,
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: 25,
+                        fontSize: 20,
                       ),
                     ),
                     SizedBox(height: 30),
@@ -63,7 +63,7 @@ class Details extends StatelessWidget {
                       textAlign: TextAlign.start,
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: 25,
+                        fontSize: 20,
                       ),
                     ),
                   ],
@@ -85,7 +85,7 @@ class Details extends StatelessWidget {
                       textAlign: TextAlign.start,
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: 25,
+                        fontSize: 20,
                       ),
                     ),
                     SizedBox(height: 30),
@@ -105,7 +105,7 @@ class Details extends StatelessWidget {
                         textAlign: TextAlign.start,
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: 25,
+                          fontSize: 20,
                         ),
                       ),
                     ),

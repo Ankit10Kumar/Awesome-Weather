@@ -10,7 +10,7 @@ class WeatherRepo {
   final apiID = '05c84fa95e4c33a7daee07a12d9c3b8e';
   final giolocationbaseURL = 'http://api.openweathermap.org/geo/1.0/direct?q=';
   final baseURL = 'http://api.openweathermap.org/data/2.5/';
-  Future<List<Location>> getCities(String city) async {
+  Future<List<City>> getCities(String city) async {
     final url = giolocationbaseURL + city + '&limit=3&appid=' + apiID;
     try {
       final response = await http
@@ -20,7 +20,7 @@ class WeatherRepo {
           .timeout(Duration(seconds: 5));
       print(response.statusCode);
       final jsonLocation = _processResponse(response);
-      return List<Location>.from(jsonLocation.map((x) => Location.fromJson(x)));
+      return List<City>.from(jsonLocation.map((x) => City.fromJson(x)));
     } on SocketException {
       throw FetchDataException('No Internet connection');
     } on TimeoutException {
@@ -28,7 +28,26 @@ class WeatherRepo {
     }
   }
 
-  Future<Forecast> getCurrentForcast(Location location) async {
+  static Future<City> getCityName(double? lat, double? lon) async {
+    final apiID = '05c84fa95e4c33a7daee07a12d9c3b8e';
+    final url =
+        'http://api.openweathermap.org/geo/1.0/reverse?lat=$lat&lon=$lon&limit=1&appid=$apiID';
+    try {
+      final response = await http
+          .get(
+            Uri.parse(url),
+          )
+          .timeout(Duration(milliseconds: 700));
+      final jsonWeather = json.decode(response.body);
+      return City.fromJson(jsonWeather);
+    } on SocketException {
+      throw FetchDataException('No Internet connection');
+    } on TimeoutException {
+      throw ApiNotRespondingException('Server not responding');
+    }
+  }
+
+  Future<Forecast> getCurrentForcast(City location) async {
     final lat = location.lat;
     final long = location.lon;
     final url =
@@ -38,7 +57,7 @@ class WeatherRepo {
           .get(
             Uri.parse(url),
           )
-          .timeout(Duration(seconds: 5));
+          .timeout(Duration(seconds: 2));
       final jsonWeather = _processResponse(response);
       return Forecast.fromJson(jsonWeather);
     } on SocketException {
@@ -63,7 +82,7 @@ class WeatherRepo {
         throw BadRequestException(utf8.decode(response.bodyBytes));
       case 500:
       default:
-        throw FetchDataException(
+        throw DefaultException(
             'Error occured with code : ${response.statusCode}');
     }
   }

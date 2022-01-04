@@ -21,43 +21,45 @@ class DailyForecast extends StatelessWidget {
           ),
           Container(
             height: 180,
-            child: ListView.separated(
-              separatorBuilder: (context, index) => VerticalDivider(
-                color: Colors.transparent,
-                thickness: 25,
-              ),
+            child: ListView.builder(
+              // separatorBuilder: (context, index) => VerticalDivider(
+              //   color: Colors.transparent,
+              //   thickness: 10,
+              // ),
               physics: BouncingScrollPhysics(),
               shrinkWrap: true,
               scrollDirection: Axis.horizontal,
               itemCount: daily.length,
               itemBuilder: (context, item) => Container(
-                margin: EdgeInsets.only(left: 20, right: 20),
-                width: MediaQuery.of(context).size.width * 0.12,
+                margin: EdgeInsets.symmetric(horizontal: 5),
+                width: MediaQuery.of(context).size.width * 0.19,
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     Text(
-                      getDate(timestamp: daily[item].dt, format: 'EEE d'),
+                      getDate(timestamp: daily[item].dt, format: 'EEE'),
                       style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.w400,
-                          fontSize: 10),
+                          fontSize: 15),
                     ),
-                    SizedBox(height: 20),
-                    ImageIcon(
-                      AssetImage(
-                          'Assets/images/${daily[item].weather[0].icon}.png'),
-                      color: Colors.white,
-                      size: 60,
+                    Container(
+                      height: 40,
+                      // color: Colors.green,
+                      clipBehavior: Clip.none,
+                      child: Image.asset(
+                        'Assets/images/${daily[item].weather[0].icon}.png',
+                        fit: BoxFit.fill,
+                      ),
                     ),
-                    SizedBox(height: 20),
                     Text(
                       converter(daily[item].temp.max),
                       style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w400,
-                          fontSize: 9),
+                        color: Colors.white,
+                        fontWeight: FontWeight.w400,
+                        fontSize: 12,
+                      ),
                     )
                   ],
                 ),

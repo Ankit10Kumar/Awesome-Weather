@@ -16,7 +16,7 @@ class CityBloc extends Bloc<CityEvent, CityState> {
   Stream<CityState> mapEventToState(CityEvent event) async* {
     yield CityLoading();
     try {
-      List<Location> locations = await repo.getCities(event.city);
+      List<City> locations = await repo.getCities(event.city);
       yield CitiesLoaded(locations);
     } catch (error) {
       if (error is AppException)
@@ -54,7 +54,7 @@ class CityInitial extends CityState {
 }
 
 class CitiesLoaded extends CityState {
-  final List<Location> cities;
+  final List<City> cities;
   CitiesLoaded(this.cities) : super([cities]);
   @override
   List<Object?> get props => [cities];
